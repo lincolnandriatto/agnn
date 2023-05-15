@@ -13,7 +13,7 @@ class Window(Frame):
         self.max_fitness = 0
         self.geracao = 0
         self.numGeracao = 10
-        self.numExecucao = 50
+        self.numExecucao = 130
         self.individuos = 2
 
         self.axisX = 50
@@ -46,7 +46,6 @@ class Window(Frame):
 
         self.linhaEliminatoriaX = 5
         self.avancaLinhaEliminatoria = True
-     #    self.frameLinhaEliminatoria = None
 
         self.tamanhoImagem = [18, 16]
 
@@ -103,24 +102,17 @@ class Window(Frame):
         rightButton = Button(self, text="Verifica Resultado", command=self.verificaResultado)
         rightButton.place(x=50, y=450)        
 
-##################
-     #    imagem = PhotoImage(file="C:/projetos/python/AlgoritmoGenetico/test1/img/alimento.png")
-     #    self.w = Label(master, image=imagem)
-     #    self.w.imagem = imagem
-     #    self.w.place(x=self.axisX, y=self.axisY)
-     #    # w.pack()
-##################
 
-        imagemObstacle = PhotoImage(file="C:/projetos/python/AlgoritmoGenetico/test1/img/obstacle.png")
+        imagemObstacle = PhotoImage(file="./img/obstacle.png")
         self.label = Label(master, image=imagemObstacle)
         self.label.imagem = imagemObstacle
         self.label.place(x=self.obstacle1X, y=self.obstacle1Y)
 
         for i in range(len(self.obstacleList)):
-          imagemObstacle = PhotoImage(file="C:/projetos/python/AlgoritmoGenetico/test1/img/obstacle.png")
+          imagemObstacle = PhotoImage(file="./img/obstacle.png")
           self.label = Label(master, image=imagemObstacle)
           self.label.imagem = imagemObstacle
-          # if self.obstacleList[i][1] == 80:
+
           self.label.place(x=self.obstacleList[i][1], y=self.obstacleList[i][0])
 
         self.frameLinhaEliminatoria = Frame(master=master, width=5, height=395, bg="red")
@@ -252,19 +244,15 @@ class Window(Frame):
      def executaGeracoes(self):
           x = 50
           y = 200
-          # if self.geracao >= self.numGeracao:
           if self.geracao >= self.numGeracao:     
                print("Finaliza número de gerações")
                self.geracao = 0
                return
           
-          # for g in range(0, geracao):
           for i in range(self.individuos):
                self.executaMovimentoThead(x, y, i)
                
           self.movimentaLinhaEliminatoriaThread()
-               # y += 20
-               # self.gera_nova_popupacao()
           self.esperaFinalizarGeracao()
 
      def esperaFinalizarGeracao(self):
@@ -365,13 +353,12 @@ class Window(Frame):
 
           # Iterate through all weights from all layers for crossover
           for i in range(0, len(nn1_weights)):
-               # Get single point to split the matrix in parents based on # of cols
+
                split = random.randint(0, np.shape(nn1_weights[i])[1]-1)
                # Iterate through after a single point and set the remaing cols to nn_2
                for j in range(split, np.shape(nn1_weights[i])[1]-1):
                     nn1_weights[i][:, j] = nn2_weights[i][:, j]
 
-               # After crossover add weights to child
                child_weights.append(nn1_weights[i])
 
 
@@ -381,7 +368,6 @@ class Window(Frame):
           # return child
           return child_weights
 
-     # Chance to mutate weights
      def mutation(self, child_weights):
           # Add a chance for random mutation
           selection = random.randint(0, len(child_weights)-1)
@@ -435,7 +421,7 @@ class Window(Frame):
                individuo_selecionado[0]['axisY'] = axisY
 
                if 'colisao' in individuo_selecionado[0] and individuo_selecionado[0]['colisao'] == 1:
-                    imagem = PhotoImage(file="C:/projetos/python/AlgoritmoGenetico/test1/img/img.png")
+                    imagem = PhotoImage(file="./img/img.png")
                     w = Label(self.master, image=imagem)
                     w.imagem = imagem
                     w.place(x=axisX, y=axisY)
@@ -445,14 +431,11 @@ class Window(Frame):
                     w = individuo_selecionado[0]['label']
           else:
 
-               imagem = PhotoImage(file="C:/projetos/python/AlgoritmoGenetico/test1/img/img.png")
+               imagem = PhotoImage(file="./img/img.png")
                w = Label(self.master, image=imagem)
                w.imagem = imagem
                w.place(x=axisX, y=axisY)
                
-               # axisX = self.axisX
-               # axisY = self.axisY
-
                individuo_selecionado = [{ 'individuo': individuo, 'executa': executa, 'pesos0': [], 'pesos1': [], 'label': w, 'axisX': axisX, 'axisY': axisY }]
                self.populacao_individuos.append(individuo_selecionado[0])
 
@@ -499,10 +482,9 @@ class Window(Frame):
           # individuo_selecionado[0]['pesos0'] = 2*np.random.random((3,3)) - 1
           # individuo_selecionado[0]['pesos1'] = 2*np.random.random((3,3)) - 1
 
-          print('Individuo: '+ str(individuo) +' Executa: '+ str(executa)) #+' resultNeuralNetwork: ',resultNeuralNetwork)
+          print('Individuo: '+ str(individuo) +' Executa: '+ str(executa))
 
           try:
-               # if (len(self.cenario) < axisX+20 and len(self.cenario[0]) < axisY+20) or resultNeuralNetwork[0, 2] == 1 and self.cenario[axisX+20][axisY] == 1:
 
                if self.cenario[axisY][axisX+verificaTamanhoImagemX] == -1 :
                     print("chegou")
@@ -512,8 +494,6 @@ class Window(Frame):
                     print("eliminado")
                     individuo_selecionado[0]['colisao'] = 1
                     return
-
-               # if (len(self.cenario[0]) < axisX+verificaTamanhoImagemY and len(self.cenario) < axisY+verificaTamanhoImagemY) or self.cenario[axisY+verificaTamanhoImagemY][axisX] == 1 or self.cenario[axisY][axisX] ==1 or self.cenario[axisY][axisX+verificaTamanhoImagemX] ==1:
 
                if (len(self.cenario[0]) < axisX+verificaTamanhoImagemY and 
                     len(self.cenario) < axisY) or (
@@ -560,12 +540,10 @@ root = Tk()
 
 app = Window(root)
 
-# set window title
-root.wm_title("Tkinter window Laura")
+
+root.wm_title("Algoritmo Genético com Redes Neurais")
 
 root.geometry("800x600")
-
-# executaMainloopThead(root)
 
 # show window
 root.mainloop()
